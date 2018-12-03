@@ -46,8 +46,8 @@
   "This is the top-level function for the whole Lisp program."
 
   (let ((tree (make-hash-table :size 1000 :test #'equal)))
-    (setf line (read-line *STANDARD-INPUT* nil nil))
-    (print line)
+      (loop for line = (read-line *STANDARD-INPUT* nil nil)
+            while line do (print line))
     ))
 
 (let ((*STANDARD-INPUT* (open "C:\\Users\\Velociraptor 2.0\\Desktop\\lisp\\test.txt" :direction :input)))
