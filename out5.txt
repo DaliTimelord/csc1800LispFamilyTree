@@ -1,0 +1,12 @@
+X Tata ancestor Aldarion
+Yes
+
+X Celebrimbor cousin Arwen
+Yes
+
+X Earendil ancestor Arwen
+Yes
+
+X Earendil ancestor Aragorn
+Yes
+

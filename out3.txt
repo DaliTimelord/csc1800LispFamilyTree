@@ -1,0 +1,30 @@
+W child Amy
+Armond
+Xerxes
+
+W child Bill
+Fred
+Xerxes
+
+W ancestor Xerxes
+Amelia
+Amy
+Arthur
+Baylor
+Bert
+Beth
+Betty
+Bill
+Bradley
+Brenda
+
+W sibling Xerxes
+Armond
+Fred
+
+X Glenda unrelated Xerxes
+Yes
+
+X Glenda unrelated Xerxes
+Yes
+
