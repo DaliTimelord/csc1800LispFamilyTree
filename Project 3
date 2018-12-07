@@ -24,40 +24,61 @@
 
   (gethash symbol-name family-tree nil))
 
+(defun sort-list (list)
+  (sort list #'STRING-LESSP :key #'(lambda(x) (format nil "~A" x))))
 
-
-(defun ancestors (p tree)
+(defun ancestors (symbol tree)
 
   "Returns a list of symbol-names of all the ancestors of P in TREE. Does not remove any duplicated names!"
 
-   (let ((parent1 (personstruct (first (person-parents p)) tree))
+   (let ((parent1 (personstruct (first (person-parents (personstruct symbol tree))) tree))
 
-         (parent2 (personstruct (second (person-parents p)) tree)))
+         (parent2 (personstruct (second (person-parents (personstruct symbol tree))) tree)))
 
      (when parent1
 
-         (append (list (person-name parent1) (person-name parent2))
+         (remove-duplicates (append (list (person-name parent1) (person-name parent2))
 
-                 (ancestors parent1 tree)
+                 (ancestors (person-name parent1) tree)
 
-                 (ancestors parent2 tree)))))
+                 (ancestors (person-name parent2) tree))))))
 
-(defun getsiblings (symbol-1 tree)
-  (setf p1 (personstruct (first (person-parents (personstruct symbol-1 tree))) tree))
-  (setf p2 (personstruct (second (person-parents (personstruct symbol-1 tree))) tree))
-  (remove symbol-1 (remove-duplicates (append (person-children p1) (person-children p2)))))
+(defun siblings (symbol tree)
+  (setf p1 (personstruct (first (person-parents (personstruct symbol tree))) tree))
+  (setf p2 (personstruct (second (person-parents (personstruct symbol tree))) tree))
+  (remove symbol (remove-duplicates (append (person-children p1) (person-children p2)))))
 
-(defun is-spouse (symbol-1 symbol-2 tree)
-  (member symbol-1 (person-spouses (personstruct symbol-2 tree))))
+(defun spouses (symbol tree)
+  (person-spouses (personstruct symbol tree)))
 
-(defun is-ancestor (symbol-1 symbol-2 tree)
-  (member symbol-1 (person-spouses (personstruct symbol-2 tree))))
+(defun children (symbol tree)
+  (person-children (personstruct symbol tree)))
 
-(defun is-child (symbol-1 symbol-2 tree)
-  (member symbol-1 (person-children (personstruct symbol-2 tree))))
+(defun cousins (symbol tree)
+  (setf list1 (ancestors symbol tree))
+  (setf cousin-list ())
+  (loop for p2 being the hash-values of tree
+        do (progn
+             (setf list2 (ancestors (person-name p2) tree))
+             (cond ((and (not (member (person-name p2) list1))
+                         (not (member symbol list2))
+                         (not (eq symbol (person-name p2)))
+                         (intersection list1 list2))
+                    (setf cousin-list  (append cousin-list (list (person-name p2))))))))
+  (setf cousin-list cousin-list))
 
-(defun is-cousin (symbol-1 symbol-2 tree)
-  (member symbol-1 (person-spouses (personstruct symbol-2 tree))))
+(defun unrelated (symbol tree)
+  (setf related (append (ancestors symbol tree)
+                        (cousins symbol tree)
+                        (children symbol tree)))
+  (setf unrelated ())
+  (loop for p2 being the hash-values of tree
+        do (progn
+             (setf list2 (ancestors (person-name p2) tree))
+             (cond ((and (not (member (person-name p2) related))
+                         (not (member symbol list2)))
+                    (setf unrelated (append unrelated (list (person-name p2))))))))
+  (setf unrelated unrelated))
 
 
 (defun family ()
@@ -66,23 +87,47 @@
   (setf tree (make-hash-table :size 1000 :test #'equal))
   (loop for line = (read *STANDARD-INPUT* nil nil)
         while line do (progn
-                        (cond ((string= (first line) "W") 
+                        (cond ((string= (first line) "W")
+                               (print (format nil "~{~A ~}" line))
                                (cond ((string= (second line) "SIBLING")
-                                      (print (getsiblings (third line) tree)))
-                                     ((string= (third line) "SPOUSE")
-                                      (if (is-spouse (second line) (fourth line) tree)
-                                          (print "Yes")
-                                        (print "No")))))
+                                      (print (sort-list (siblings (third line) tree)))
+                                     ((string= (second line) "ANCESTOR")
+                                      (print (sort-list (ancestors (third line) tree))))
+                                     ((string= (second line) "SPOUSE")
+                                      (print (sort-list (spouses (third line) tree))))
+                                     ((string= (second line) "CHILD")
+                                      (print (sort-list (children (third line) tree))))
+                                     ((string= (second line) "COUSIN")
+                                      (print (sort-list (cousins (third line) tree))))
+                                     ((string= (second line) "UNRELATED")
+                                      (print (sort-list (unrelated (third line) tree)))))))
                               ((string= (first line) "X")
-                               (print (format nil "~{~A~^, ~}" line))
-                               (cond ((string= (third line) "CHILD")
-                                      (if (is-child (second line) (fourth line) tree)
+                               (print (format nil "~{~A ~}" line))
+                               (cond ((string= (third line) "SIBLING")
+                                      (if (member (second line) (siblings (fourth line) tree))
+                                          (print "Yes")
+                                        (print "No")))
+                                     ((string= (third line) "ANCESTOR")
+                                      (if (member (second line) (ancestors (fourth line) tree))
                                           (print "Yes")
                                         (print "No")))
                                      ((string= (third line) "SPOUSE")
-                                      (if (is-spouse (second line) (fourth line) tree)
+                                      (if (member (second line) (spouses (fourth line) tree))
                                           (print "Yes")
-                                        (print "No")))))
+                                        (print "No")))
+                                     ((string= (third line) "CHILD")
+                                      (if (member (second line) (children (fourth line) tree))
+                                          (print "Yes")
+                                        (print "No")))
+                                     ((string= (third line) "COUSIN")
+                                      (if (member (second line) (cousins (fourth line) tree))
+                                          (print "Yes")
+                                        (print "No")))
+                                     ((string= (third line) "UNRELATED")
+                                      (if (member (second line) (unrelated (fourth line) tree))
+                                          (print "Yes")
+                                        (print "No"))))
+                               (print ""))
                               ((string= (first line) "E")
                                (if (personstruct (second line) tree)
                                    (setf p1 (personstruct (second line) tree))
@@ -100,8 +145,8 @@
                                       (setf (person-children p2) (append (person-children p2) (list (person-name p3))))))
 
                                (cond ((not (member (person-name p2) (person-spouses p1)))
-                                      (setf (person-spouses p1) (append (person-spouses p1) (list (person-name p3))))
-                                      (setf (person-spouses p2) (append (person-spouses p2) (list (person-name p3)))))))))))
+                                      (setf (person-spouses p1) (append (person-spouses p1) (list (person-name p2))))
+                                      (setf (person-spouses p2) (append (person-spouses p2) (list (person-name p2)))))))))))
 
-(let ((*STANDARD-INPUT* (open "C:\\Users\\Velociraptor 2.0\\Desktop\\lisp\\test.txt" :direction :input)))
+(let ((*STANDARD-INPUT* (open "C:\\Users\\Velociraptor 2.0\\Desktop\\lisp\\test2.txt" :direction :input)))
   (family))
