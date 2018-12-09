@@ -163,7 +163,7 @@
 
                                (cond ((not (member (person-name p2) (person-spouses p1)))
                                       (setf (person-spouses p1) (append (person-spouses p1) (list (person-name p2))))
-                                      (setf (person-spouses p2) (append (person-spouses p2) (list (person-name p2)))))))))))
+                                      (setf (person-spouses p2) (append (person-spouses p2) (list (person-name p1)))))))))))
 
 (let ((*STANDARD-INPUT* (open "C:\\Users\\Velociraptor 2.0\\Desktop\\lisp\\test.txt" :direction :input)))
   (family))
