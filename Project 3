@@ -47,9 +47,11 @@
                  (ancestors (person-name parent2) tree))))))
 
 (defun siblings (symbol tree)
-  (setf p1 (personstruct (first (person-parents (personstruct symbol tree))) tree))
-  (setf p2 (personstruct (second (person-parents (personstruct symbol tree))) tree))
-  (remove symbol (remove-duplicates (append (person-children p1) (person-children p2)))))
+  (if (person-parents (personstruct symbol tree))
+      (progn
+        (setf p1 (personstruct (first (person-parents (personstruct symbol tree))) tree))
+        (setf p2 (personstruct (second (person-parents (personstruct symbol tree))) tree))
+        (remove symbol (remove-duplicates (append (person-children p1) (person-children p2)))))))
 
 (defun spouses (symbol tree)
   (person-spouses (personstruct symbol tree)))
@@ -163,5 +165,5 @@
                                       (setf (person-spouses p1) (append (person-spouses p1) (list (person-name p2))))
                                       (setf (person-spouses p2) (append (person-spouses p2) (list (person-name p2)))))))))))
 
-(let ((*STANDARD-INPUT* (open "C:\\Users\\Josh\\Desktop\\lisp\\test.txt" :direction :input)))
+(let ((*STANDARD-INPUT* (open "C:\\Users\\Velociraptor 2.0\\Desktop\\lisp\\test.txt" :direction :input)))
   (family))
