@@ -1,0 +1,53 @@
+X Erskin ancestor Alex
+No
+
+X Alex ancestor Erskin
+Yes
+
+X Cammy ancestor Carter
+No
+
+W ancestor Erskin
+Alberta
+Alex
+Amelia
+Amy
+Andrew
+Aretha
+Armond
+Authur
+Elmer
+Emma
+Ervin
+Esmerelda
+
+W unrelated David
+Alberta
+Alex
+Amelia
+Amy
+Andrew
+Aretha
+Armond
+Authur
+Baylor
+Bert
+Beth
+Betty
+Bill
+Bradley
+Brenda
+Cammy
+Carl
+Carter
+Charlene
+Chrissy
+Christopher
+David
+Drusilla
+Elmer
+Emma
+Erskin
+Ervin
+Esmerelda
+

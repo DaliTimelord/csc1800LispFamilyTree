@@ -1,0 +1,54 @@
+W child Amy
+Armond
+Xerxes
+
+W ancestor Xerxes
+Amelia
+Amy
+Authur
+Baylor
+Bert
+Beth
+Betty
+Bill
+Bradley
+Brenda
+
+W sibling Xerxes
+Armond
+Fred
+
+X Fred sibling Xerxes
+Yes
+
+W cousin Xerxes
+Alice
+Annie
+Archibald
+Armond
+Fred
+
+W unrelated Xerxes
+Albert
+Alberta
+Alex
+Andrew
+Anton
+Cammy
+Carl
+Charlene
+Chrissy
+Christopher
+Daniel
+David
+Derrick
+Donald
+Doris
+Drusilla
+Elmer
+Emma
+Erskin
+Ervin
+Esmerelda
+Xerxes
+

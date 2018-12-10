@@ -1,0 +1,10 @@
+X Aaron cousin Beth
+No
+
+X Aaron unrelated Beth
+Yes
+
+W spouse Beth
+
+W sibling Beth
+

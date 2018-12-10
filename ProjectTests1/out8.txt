@@ -1,0 +1,17 @@
+W ancestor Aaron
+Caleb
+Denise
+Ethel
+Fred
+Jerome
+Pauline
+
+X Jerome unrelated Pauline
+Yes
+
+X Wendy sibling Aaron
+No
+
+X Wendy sibling Aaron
+Yes
+

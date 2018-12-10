@@ -1,0 +1,49 @@
+W child Bregor
+Barahir
+Bregil
+Bregolas
+Gilwen
+Hirwen
+
+X Barahir cousin Emeldir
+Yes
+
+W sibling Elrond2
+Elros2
+
+W ancestor Dior
+Adanel
+Andorwen
+Barahir
+Baran
+Baranwen
+Beldir
+Beldwen
+Belemir
+Belen
+Belenwen
+Beor
+Beren
+BerenErchamion
+Berenwen
+Boromir
+Boron
+Borwien
+Bregor
+Bregorwen
+Elwe
+Emeldir
+Luthien
+Malach
+Marach
+Mawen
+Melian
+Orwen
+Tata
+Tatwen
+Zimrahin
+
+W spouse Finwe
+Indis
+Miriel
+
