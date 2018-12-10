@@ -1,9 +1,0 @@
-X Drew ancestor Rob
-Yes
-
-X Rosa sibling Rob
-Yes
-
-W sibling Ray
-Steve
-
