@@ -97,9 +97,10 @@
                                (cond ((not (personstruct (third line) tree))
                                       (setf list ())
                                       (if (string= (second line) "UNRELATED")
-                                          (loop for p2 being the hash-values of tree
-                                                do (setf list (append list (list (person-name p2))))))
-                                      (setf list (remove-duplicates (append list (list (third line)))))
+                                          (progn
+                                            (loop for p2 being the hash-values of tree
+                                                do (setf list (append list (list (person-name p2)))))
+                                            (setf list (append list (list (third line))))))            
                                       (print-list list))
                                      ((string= (second line) "SIBLING")
                                       (print-list (siblings (third line) tree)))
